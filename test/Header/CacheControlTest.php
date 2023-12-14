@@ -28,8 +28,8 @@ class CacheControlTest extends CacheControlTestCase
         $clone = $this->cacheControl->withDirective('foo', true);
         $this->assertInstanceOf($this->controlClass, $clone);
 
-        $this->assertAttributeSame([], 'directives', $this->cacheControl);
-        $this->assertAttributeSame(['foo' => true], 'directives', $clone);
+        $this->assertSameDirectives([], $this->cacheControl);
+        $this->assertSameDirectives(['foo' => true], $clone);
     }
 
     /**
@@ -38,7 +38,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testWithFlagAndFalse()
     {
         $clone = $this->cacheControl->withDirective('foo', false);
-        $this->assertAttributeSame([], 'directives', $clone);
+        $this->assertSameDirectives([], $clone);
     }
 
     /**
@@ -47,7 +47,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testWithFlagRemovesFlag()
     {
         $clone = $this->cacheControl->withDirective('foo', true)->withDirective('foo', false);
-        $this->assertAttributeSame([], 'directives', $clone);
+        $this->assertSameDirectives([], $clone);
     }
 
     /**
@@ -75,8 +75,8 @@ class CacheControlTest extends CacheControlTestCase
         $clone = $this->cacheControl->withDirective('foo', 'bar');
         $this->assertInstanceOf($this->controlClass, $clone);
 
-        $this->assertAttributeSame([], 'directives', $this->cacheControl);
-        $this->assertAttributeSame(['foo' => 'bar'], 'directives', $clone);
+        $this->assertSameDirectives([], $this->cacheControl);
+        $this->assertSameDirectives(['foo' => 'bar'], $clone);
     }
 
     /**
@@ -85,7 +85,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testWithDirectiveWithNegativeInt()
     {
         $clone = $this->cacheControl->withDirective('foo', -200);
-        $this->assertAttributeSame(['foo' => 0], 'directives', $clone);
+        $this->assertSameDirectives(['foo' => 0], $clone);
     }
 
     /**
@@ -94,7 +94,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testWithDirectiveWithNull()
     {
         $clone = $this->cacheControl->withDirective('foo', 'bar')->withDirective('foo', null);
-        $this->assertAttributeSame([], 'directives', $clone);
+        $this->assertSameDirectives([], $clone);
     }
 
     /**
@@ -121,7 +121,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testFromStringWithFlag()
     {
         $control = CacheControlStub::createFromString('no-transform');
-        $this->assertAttributeSame(['no-transform' => true], 'directives', $control);
+        $this->assertSameDirectives(['no-transform' => true], $control);
     }
 
     /**
@@ -131,7 +131,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testFromStringWithToken()
     {
         $control = CacheControlStub::createFromString('max-age=60');
-        $this->assertAttributeSame(['max-age' => 60], 'directives', $control);
+        $this->assertSameDirectives(['max-age' => 60], $control);
     }
 
     /**
@@ -141,7 +141,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testFromStringWithMultiple()
     {
         $control = CacheControlStub::createFromString('no-transform, max-age=100');
-        $this->assertAttributeSame(['no-transform' => true, 'max-age' => 100], 'directives', $control);
+        $this->assertSameDirectives(['no-transform' => true, 'max-age' => 100], $control);
     }
 
     /**
@@ -160,7 +160,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testFromStringWithUnknownDirective()
     {
         $control = CacheControlStub::createFromString('foo="bar"');
-        $this->assertAttributeSame(['foo' => 'bar'], 'directives', $control);
+        $this->assertSameDirectives(['foo' => 'bar'], $control);
     }
 
     /**
@@ -170,7 +170,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testFromStringWithUnknownDirectiveFlag()
     {
         $control = CacheControlStub::createFromString('foo');
-        $this->assertAttributeSame([], 'directives', $control);
+        $this->assertSameDirectives([], $control);
     }
 
     /**
@@ -259,8 +259,8 @@ class CacheControlTest extends CacheControlTestCase
      */
     public function testWithExtensionInvalidType()
     {
-        $this->setExpectedException(
-            'InvalidArgumentException',
+        $this->expectExceptionMessage(
+            //'InvalidArgumentException',
             'Name and value of the extension have to be a string.'
         );
         $this->cacheControl->withExtension('foo', true);

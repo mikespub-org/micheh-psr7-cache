@@ -13,7 +13,7 @@ use Micheh\Cache\Header\CacheControl;
 class CacheControlStub extends CacheControl
 {
     protected static $directiveMethods = [
-        'custom' => 'withCustom'
+        'custom' => 'withCustom',
     ];
 
     public static function createFromString($string)

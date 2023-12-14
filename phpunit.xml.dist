@@ -1,21 +1,14 @@
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.7/phpunit.xsd"
-         backupGlobals="false"
-         beStrictAboutOutputDuringTests="true"
-         beStrictAboutTestSize="true"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         bootstrap="./vendor/autoload.php"
-         colors="true"
-         forceCoversAnnotation="true">
-    <testsuites>
-        <testsuite name="MichehTest\Cache">
-            <directory>./test</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd" backupGlobals="false" beStrictAboutOutputDuringTests="true" beStrictAboutTestsThatDoNotTestAnything="true" bootstrap="./vendor/autoload.php" colors="true" cacheDirectory=".phpunit.cache" requireCoverageMetadata="true">
+  <coverage/>
+  <testsuites>
+    <testsuite name="MichehTest\Cache">
+      <directory>./test</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">./src</directory>
+    </include>
+  </source>
 </phpunit>

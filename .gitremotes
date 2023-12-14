@@ -1,0 +1,3 @@
+[remote "upstream"]
+	url = https://github.com/micheh/psr7-cache.git
+	fetch = +refs/heads/*:refs/remotes/upstream/*

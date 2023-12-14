@@ -16,12 +16,12 @@ use InvalidArgumentException;
 abstract class CacheControl
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private $directives = [];
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     private static $commonMethods = [
         'max-age' => 'withMaxAge',
@@ -31,7 +31,7 @@ abstract class CacheControl
     ];
 
     /**
-     * @var array Maps the directive names to the methods
+     * @var array<string, mixed> Maps the directive names to the methods
      */
     protected static $directiveMethods = [];
 

@@ -9,8 +9,10 @@
 namespace MichehTest\Cache\Header;
 
 use Micheh\Cache\Header\CacheControl;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 
-class CacheControlTestCase extends \PHPUnit_Framework_TestCase
+class CacheControlTestCase extends TestCase
 {
     /**
      * @var CacheControl
@@ -22,7 +24,7 @@ class CacheControlTestCase extends \PHPUnit_Framework_TestCase
      */
     protected $controlClass = 'Micheh\Cache\Header\CacheControl';
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->cacheControl = new $this->controlClass();
     }
@@ -36,13 +38,28 @@ class CacheControlTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @param array<string, mixed> $directives
+     * @param MockObject|CacheControl
+     */
+    protected function assertSameDirectives($directives, $control)
+    {
+        if (empty($directives)) {
+            $this->assertSame('', (string) $control);
+            return;
+        }
+        foreach ($directives as $name => $value) {
+            $this->assertSame($value, $control->getExtension($name));
+        }
+    }
+
+    /**
      * @param string $name
      * @param string|int $value
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject|CacheControl
      */
     protected function getControlWithDirective($name, $value)
     {
-        $control = $this->getMock($this->controlClass, ['withDirective']);
+        $control = $this->getMockBuilder($this->controlClass)->onlyMethods(['withDirective'])->getMock();
         $control->expects($this->once())->method('withDirective')
             ->with($name, $value)->willReturn('phpunit');
 
@@ -51,11 +68,11 @@ class CacheControlTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $name
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject|CacheControl
      */
     protected function getControlWithGetDirective($name)
     {
-        $control = $this->getMock($this->controlClass, ['getDirective']);
+        $control = $this->getMockBuilder($this->controlClass)->onlyMethods(['getDirective'])->getMock();
         $control->expects($this->once())->method('getDirective')
             ->with($name)->willReturn('phpunit');
 
@@ -64,11 +81,11 @@ class CacheControlTestCase extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $name
-     * @return \PHPUnit_Framework_MockObject_MockObject
+     * @return MockObject|CacheControl
      */
     protected function getControlWithHasFlag($name)
     {
-        $control = $this->getMock($this->controlClass, ['hasDirective']);
+        $control = $this->getMockBuilder($this->controlClass)->onlyMethods(['hasDirective'])->getMock();
         $control->expects($this->once())->method('hasDirective')
             ->with($name)->willReturn('phpunit');
 

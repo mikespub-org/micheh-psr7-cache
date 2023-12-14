@@ -38,7 +38,7 @@ class ResponseCacheControlTest extends CacheControlTestCase
     public function testWithPublic()
     {
         $clone = $this->cacheControl->withPublic();
-        $this->assertAttributeSame(['public' => true], 'directives', $clone);
+        $this->assertSameDirectives(['public' => true], $clone);
     }
 
     /**
@@ -48,7 +48,7 @@ class ResponseCacheControlTest extends CacheControlTestCase
     public function testWithPrivate()
     {
         $clone = $this->cacheControl->withPrivate();
-        $this->assertAttributeSame(['private' => true], 'directives', $clone);
+        $this->assertSameDirectives(['private' => true], $clone);
     }
 
     /**
@@ -59,7 +59,7 @@ class ResponseCacheControlTest extends CacheControlTestCase
     public function testWithPublicOverridesPrivate()
     {
         $clone = $this->cacheControl->withPrivate()->withPublic();
-        $this->assertAttributeSame(['public' => true], 'directives', $clone);
+        $this->assertSameDirectives(['public' => true], $clone);
     }
 
     /**
@@ -70,7 +70,7 @@ class ResponseCacheControlTest extends CacheControlTestCase
     public function testWithPrivateOverridesPublic()
     {
         $clone = $this->cacheControl->withPublic()->withPrivate();
-        $this->assertAttributeSame(['private' => true], 'directives', $clone);
+        $this->assertSameDirectives(['private' => true], $clone);
     }
 
     /**
@@ -81,7 +81,7 @@ class ResponseCacheControlTest extends CacheControlTestCase
     public function testWithPublicDoesNotOverwriteFalse()
     {
         $clone = $this->cacheControl->withPrivate()->withPublic(false);
-        $this->assertAttributeSame(['private' => true], 'directives', $clone);
+        $this->assertSameDirectives(['private' => true], $clone);
     }
 
     /**
@@ -235,6 +235,6 @@ class ResponseCacheControlTest extends CacheControlTestCase
         $control = $this->cacheControl->withCachePrevention();
         $directives = ['no-cache' => true, 'no-store' => true, 'must-revalidate' => true];
 
-        $this->assertAttributeSame($directives, 'directives', $control);
+        $this->assertSameDirectives($directives, $control);
     }
 }

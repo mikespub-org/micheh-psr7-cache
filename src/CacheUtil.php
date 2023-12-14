@@ -25,7 +25,7 @@ class CacheUtil
 {
     /**
      * Method to add a Cache-Control header to a PSR-7 response, which should enable caching.
-     * Set the `private` parameter to false to enable shared caches to cache the response (for
+     * Set the `public` parameter to true to enable shared caches to cache the response (for
      * example when the response is usable by everyone and does not contain individual information).
      * With the `$maxAge` parameter you can specify how many seconds a response should be cached.
      *
@@ -164,12 +164,12 @@ class CacheUtil
      *
      * @link https://tools.ietf.org/html/rfc7234#section-5.2
      *
-     * @param MessageInterface $message PSR-7 message to add the Cache-Control header to
+     * @param RequestInterface|ResponseInterface $message PSR-7 message to add the Cache-Control header to
      * @param CacheControl $cacheControl Cache-Control object to add to the message
-     * @return MessageInterface The PSR-7 message with the added Cache-Control header
+     * @return RequestInterface|ResponseInterface The PSR-7 message with the added Cache-Control header
      * @throws InvalidArgumentException If the Cache-Control header is invalid
      */
-    public function withCacheControl(MessageInterface $message, CacheControl $cacheControl)
+    public function withCacheControl(RequestInterface|ResponseInterface $message, CacheControl $cacheControl)
     {
         return $message->withHeader('Cache-Control', (string) $cacheControl);
     }
