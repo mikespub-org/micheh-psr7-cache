@@ -43,6 +43,7 @@ abstract class CacheControl
      */
     protected static function createFromString($string)
     {
+        /** @phpstan-ignore-next-line */
         $cacheControl = new static();
 
         $parts = explode(',', $string);
@@ -158,6 +159,7 @@ abstract class CacheControl
      */
     public function withExtension($name, $value)
     {
+        /** @phpstan-ignore-next-line */
         if (!is_string($name) || !is_string($value)) {
             throw new InvalidArgumentException('Name and value of the extension have to be a string.');
         }

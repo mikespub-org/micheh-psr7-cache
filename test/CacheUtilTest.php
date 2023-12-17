@@ -161,6 +161,7 @@ class CacheUtilTest extends TestCase
             //'InvalidArgumentException',
             'Expected an integer with the number of seconds, received string.'
         );
+        /** @phpstan-ignore-next-line */
         $this->cacheUtil->withRelativeExpires($response, 'now');
     }
 
@@ -307,7 +308,7 @@ class CacheUtilTest extends TestCase
         $request->method('getHeaderLine')->willReturnMap($map);
 
 
-        $result = $this->cacheUtil->hasCurrentState($request, null, $lastModified);
+        $result = $this->cacheUtil->hasCurrentState($request, '', $lastModified);
         $this->assertSame($isCurrent, $result);
     }
 

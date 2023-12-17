@@ -34,5 +34,11 @@
         "psr-4": {
             "MichehTest\\Cache\\": "test/"
         }
+    },
+    "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/phpunit",
+        "coverage": "vendor/bin/phpunit --coverage-text",
+        "coverage-html": "vendor/bin/phpunit --coverage-html=coverage"
     }
 }

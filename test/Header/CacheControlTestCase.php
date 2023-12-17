@@ -9,6 +9,8 @@
 namespace MichehTest\Cache\Header;
 
 use Micheh\Cache\Header\CacheControl;
+use Micheh\Cache\Header\RequestCacheControl;
+use Micheh\Cache\Header\ResponseCacheControl;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -30,7 +32,7 @@ class CacheControlTestCase extends TestCase
     }
 
     /**
-     * @param string $value
+     * @param string|int|bool|null $value
      */
     protected function assertReturn($value)
     {
@@ -39,7 +41,7 @@ class CacheControlTestCase extends TestCase
 
     /**
      * @param array<string, mixed> $directives
-     * @param MockObject|CacheControl
+     * @param MockObject|CacheControl $control
      */
     protected function assertSameDirectives($directives, $control)
     {
@@ -54,8 +56,8 @@ class CacheControlTestCase extends TestCase
 
     /**
      * @param string $name
-     * @param string|int $value
-     * @return MockObject|CacheControl
+     * @param string|int|bool|null $value
+     * @return MockObject|CacheControl|RequestCacheControl|ResponseCacheControl
      */
     protected function getControlWithDirective($name, $value)
     {
@@ -68,7 +70,7 @@ class CacheControlTestCase extends TestCase
 
     /**
      * @param string $name
-     * @return MockObject|CacheControl
+     * @return MockObject|CacheControl|RequestCacheControl|ResponseCacheControl
      */
     protected function getControlWithGetDirective($name)
     {
@@ -81,7 +83,7 @@ class CacheControlTestCase extends TestCase
 
     /**
      * @param string $name
-     * @return MockObject|CacheControl
+     * @return MockObject|CacheControl|RequestCacheControl|ResponseCacheControl
      */
     protected function getControlWithHasFlag($name)
     {

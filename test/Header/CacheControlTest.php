@@ -179,7 +179,7 @@ class CacheControlTest extends CacheControlTestCase
     public function testWithMaxAge()
     {
         $control = $this->getControlWithDirective('max-age', 5);
-        $this->assertReturn($control->withMaxAge('5'));
+        $this->assertReturn($control->withMaxAge(5));
     }
 
     /**
@@ -263,6 +263,7 @@ class CacheControlTest extends CacheControlTestCase
             //'InvalidArgumentException',
             'Name and value of the extension have to be a string.'
         );
+        /** @phpstan-ignore-next-line */
         $this->cacheControl->withExtension('foo', true);
     }
 

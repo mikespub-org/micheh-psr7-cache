@@ -434,6 +434,7 @@ class CacheUtil
             return strtotime($time);
         }
 
+        /** @phpstan-ignore-next-line */
         throw new InvalidArgumentException('Could not create timestamp from ' . gettype($time) . '.');
     }
 
