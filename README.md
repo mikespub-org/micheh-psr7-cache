@@ -141,3 +141,11 @@ Method                | Description (see the phpDoc for more information)
 
 The files in this archive are licensed under the BSD-3-Clause license.
 You can find a copy of this license in [LICENSE.md](LICENSE.md).
+
+[ico-version]: https://img.shields.io/packagist/v/mikespub/micheh-psr7-cache.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-BSD_3--Clause-brightgreen.svg?style=flat-square
+[ico-ga]: https://github.com/mikespub-org/micheh-psr7-cache/workflows/testing/badge.svg
+[ico-downloads]: https://img.shields.io/packagist/dt/mikespub/micheh-psr7-cache.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/mikespub/micheh-psr7-cache
+[link-downloads]: https://packagist.org/packages/mikespub/micheh-psr7-cache
