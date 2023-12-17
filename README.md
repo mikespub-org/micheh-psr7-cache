@@ -8,14 +8,15 @@
 This library provides an easy way to either add cache relevant headers to a PSR-7 HTTP message implementation, or to extract cache and conditional request information from a PSR-7 message (e.g. if a response is cacheable).
 It also provides a `Cache-Control` value object to provide an object oriented interface for the manipulation of the `Cache-Control` header.
 
-
-## Installation
+## Installation of this fork (PHP 8.1+)
 
 Install this library using [Composer](https://getcomposer.org/):
 
 ```console
-$ composer require micheh/psr7-cache
+$ composer require mikespub/micheh-psr7-cache
 ```
+
+Note: the original package is still available at [micheh/psr7-cache](https://packagist.org/packages/micheh/psr7-cache) but it is no longer maintained
 
 ## Quickstart
 
