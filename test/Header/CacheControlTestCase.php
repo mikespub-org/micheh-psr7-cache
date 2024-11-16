@@ -24,7 +24,7 @@ class CacheControlTestCase extends TestCase
     /**
      * @var string
      */
-    protected $controlClass = 'Micheh\Cache\Header\CacheControl';
+    protected $controlClass = \Micheh\Cache\Header\CacheControl::class;
 
     protected function setUp(): void
     {

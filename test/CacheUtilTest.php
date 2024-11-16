@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
 
+#[\PHPUnit\Framework\Attributes\CoversClass(\Micheh\Cache\CacheUtil::class)]
 class CacheUtilTest extends TestCase
 {
     /**
@@ -29,13 +30,10 @@ class CacheUtilTest extends TestCase
         $this->cacheUtil = new CacheUtil();
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withCache
-     */
     public function testWithCache()
     {
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['withCacheControl'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['withCacheControl'])->getMock();
         $response = $this->getResponse();
 
         $util->expects($this->once())->method('withCacheControl')
@@ -46,13 +44,10 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('phpunit', $return);
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withCache
-     */
     public function testWithCacheCustomParameters()
     {
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['withCacheControl'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['withCacheControl'])->getMock();
         $response = $this->getResponse();
 
         $util->expects($this->once())->method('withCacheControl')
@@ -61,13 +56,10 @@ class CacheUtilTest extends TestCase
         $util->withCache($response, true, 86400);
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withCachePrevention
-     */
     public function testWithCachePrevention()
     {
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['withCacheControl'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['withCacheControl'])->getMock();
         $response = $this->getResponse();
 
         $util->expects($this->once())->method('withCacheControl')
@@ -78,9 +70,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('phpunit', $return);
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withCacheControl
-     */
     public function testWithCacheControl()
     {
         $response = $this->getResponseWithExpectedHeader('Cache-Control', 'public, max-age=600');
@@ -92,10 +81,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('public, max-age=600', $return->getHeaderLine('Cache-Control'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withExpires
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testWithExpires()
     {
         $date = new DateTime('2015-08-10 18:30:12', new DateTimeZone('UTC'));
@@ -105,10 +90,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('Mon, 10 Aug 2015 18:30:12 GMT', $return->getHeaderLine('Expires'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withExpires
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testWithExpiresString()
     {
         $response = $this->getResponseWithExpectedHeader('Expires', 'Mon, 10 Aug 2015 16:30:12 GMT');
@@ -123,10 +104,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('Mon, 10 Aug 2015 16:30:12 GMT', $return->getHeaderLine('Expires'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withExpires
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testWithExpiresDateTime()
     {
         $date = new DateTime('2015-08-10 18:30:12', new DateTimeZone('UTC'));
@@ -136,10 +113,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('Mon, 10 Aug 2015 18:30:12 GMT', $return->getHeaderLine('Expires'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withRelativeExpires
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testWithRelativeExpires()
     {
         $date = gmdate('D, d M Y H:i:s', time() + 300) . ' GMT';
@@ -150,9 +123,6 @@ class CacheUtilTest extends TestCase
     }
 
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withRelativeExpires
-     */
     public function testWithRelativeExpiresAndString()
     {
         $response = $this->getResponse();
@@ -165,9 +135,6 @@ class CacheUtilTest extends TestCase
         $this->cacheUtil->withRelativeExpires($response, 'now');
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withETag
-     */
     public function testWithETag()
     {
         $response = $this->getResponseWithExpectedHeader('ETag', '"foo"');
@@ -176,9 +143,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('"foo"', $return->getHeaderLine('ETag'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withETag
-     */
     public function testWithETagWeak()
     {
         $response = $this->getResponseWithExpectedHeader('ETag', 'W/"foo"');
@@ -187,9 +151,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('W/"foo"', $return->getHeaderLine('ETag'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withETag
-     */
     public function testWithETagAlreadyQuoted()
     {
         $response = $this->getResponseWithExpectedHeader('ETag', '"foo"');
@@ -198,10 +159,6 @@ class CacheUtilTest extends TestCase
         $this->assertEquals('"foo"', $return->getHeaderLine('ETag'));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::withLastModified
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testWithLastModified()
     {
         $date = new DateTime('2015-08-10 18:30:12', new DateTimeZone('UTC'));
@@ -212,12 +169,11 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::hasStateValidator
-     * @dataProvider stateValidators
      * @param string $ifMatch
      * @param string $ifUnmodified
      * @param bool $hasValidator
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stateValidators')]
     public function testHasStateValidator($ifMatch, $ifUnmodified, $hasValidator)
     {
         $map = [
@@ -225,7 +181,7 @@ class CacheUtilTest extends TestCase
             ['If-Unmodified-Since', $ifUnmodified],
         ];
 
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->method('hasHeader')->willReturnMap($map);
 
         $result = $this->cacheUtil->hasStateValidator($request);
@@ -246,13 +202,11 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::hasCurrentState
-     * @covers Micheh\Cache\CacheUtil::matchesETag
-     * @dataProvider currentStateETags
      * @param string $ifMatch
      * @param string $eTag
      * @param bool $isCurrent
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('currentStateETags')]
     public function testHasCurrentStateWithETag($ifMatch, $eTag, $isCurrent)
     {
         $map = [
@@ -260,7 +214,7 @@ class CacheUtilTest extends TestCase
             ['If-None-Match', ''],
         ];
 
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->method('getHeaderLine')->willReturnMap($map);
 
 
@@ -289,13 +243,11 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::hasCurrentState
-     * @covers Micheh\Cache\CacheUtil::matchesModified
-     * @dataProvider currentTimes
      * @param string $ifUnmodified
      * @param string $lastModified
      * @param bool $isCurrent
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('currentTimes')]
     public function testHasCurrentStateWithModified($ifUnmodified, $lastModified, $isCurrent)
     {
         $map = [
@@ -304,7 +256,7 @@ class CacheUtilTest extends TestCase
             ['If-None-Match', ''],
         ];
 
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->method('getHeaderLine')->willReturnMap($map);
 
 
@@ -326,13 +278,11 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::hasCurrentState
-     * @covers Micheh\Cache\CacheUtil::matchesETag
-     * @dataProvider currentStateNoneMatches
      * @param string $ifNoneMatch
      * @param string $eTag
      * @param bool $isCurrent
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('currentStateNoneMatches')]
     public function testHasCurrentStateWithNoneMatch($ifNoneMatch, $eTag, $isCurrent)
     {
         $map = [
@@ -341,7 +291,7 @@ class CacheUtilTest extends TestCase
             ['If-None-Match', $ifNoneMatch],
         ];
 
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->method('getHeaderLine')->willReturnMap($map);
 
 
@@ -362,9 +312,6 @@ class CacheUtilTest extends TestCase
         ];
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::hasCurrentState
-     */
     public function testHasCurrentStateWithNoneMatchAndSafe()
     {
         $map = [
@@ -373,7 +320,7 @@ class CacheUtilTest extends TestCase
             ['If-None-Match', '"foo"'],
         ];
 
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->method('getHeaderLine')->willReturnMap($map);
         $request->method('getMethod')->willReturn('GET');
 
@@ -382,16 +329,14 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::isNotModified
-     * @covers Micheh\Cache\CacheUtil::matchesETag
-     * @dataProvider notModifiedETags
      * @param string $ifNoneMatch
      * @param string $eTag
      * @param bool $notModified
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('notModifiedETags')]
     public function testIsNotModifiedWithETag($ifNoneMatch, $eTag, $notModified)
     {
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->expects($this->once())->method('getHeaderLine')
             ->with('If-None-Match')->willReturn($ifNoneMatch);
 
@@ -421,16 +366,14 @@ class CacheUtilTest extends TestCase
     }
 
     /**
-     * @covers Micheh\Cache\CacheUtil::isNotModified
-     * @covers Micheh\Cache\CacheUtil::matchesModified
-     * @dataProvider notModifiedTimes
      * @param string $ifModifiedSince
      * @param string $lastModified
      * @param bool $notModified
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('notModifiedTimes')]
     public function testIsNotModifiedWithModified($ifModifiedSince, $lastModified, $notModified)
     {
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
 
         $request->method('getHeaderLine')->willReturnMap([['If-Modified-Since', $ifModifiedSince], ['If-None-Match', '']]);
         $request->expects($this->once())->method('getMethod')->willReturn('GET');
@@ -454,21 +397,15 @@ class CacheUtilTest extends TestCase
         ];
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isNotModified
-     */
     public function testIsNotModifiedWithModifiedUnsafe()
     {
-        $request = $this->createMock('Psr\Http\Message\RequestInterface');
+        $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
         $request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
 
         $response = $this->getResponse();
         $this->assertFalse($this->cacheUtil->isNotModified($request, $response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isCacheable
-     */
     public function testIsCacheable()
     {
         $response = $this->getResponseWithHeader('Cache-Control', 'public');
@@ -481,9 +418,6 @@ class CacheUtilTest extends TestCase
         $this->assertTrue($this->cacheUtil->isCacheable($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isCacheable
-     */
     public function testIsCacheableWithPrivate()
     {
         $response = $this->getResponseWithHeader('Cache-Control', 'private');
@@ -496,9 +430,6 @@ class CacheUtilTest extends TestCase
         $this->assertFalse($this->cacheUtil->isCacheable($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isCacheable
-     */
     public function testIsCacheableWithUncacheableStatus()
     {
         $response = $this->getResponse();
@@ -508,9 +439,6 @@ class CacheUtilTest extends TestCase
         $this->assertFalse($this->cacheUtil->isCacheable($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isCacheable
-     */
     public function testIsCacheableWithoutLifetime()
     {
         $response = $this->getResponse();
@@ -520,15 +448,12 @@ class CacheUtilTest extends TestCase
         $this->assertTrue($this->cacheUtil->isCacheable($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isFresh
-     */
     public function testIsFresh()
     {
         $response = $this->getResponse();
 
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['getLifetime', 'getAge'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['getLifetime', 'getAge'])->getMock();
         $util->expects($this->once())->method('getLifetime')
             ->with($response)->willReturn(20);
 
@@ -538,15 +463,12 @@ class CacheUtilTest extends TestCase
         $this->assertTrue($util->isFresh($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isFresh
-     */
     public function testIsFreshWithOlderAge()
     {
         $response = $this->getResponse();
 
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['getLifetime', 'getAge'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['getLifetime', 'getAge'])->getMock();
         $util->expects($this->once())->method('getLifetime')
             ->with($response)->willReturn(20);
 
@@ -555,15 +477,12 @@ class CacheUtilTest extends TestCase
 
         $this->assertFalse($util->isFresh($response));
     }
-    /**
-     * @covers Micheh\Cache\CacheUtil::isFresh
-     */
     public function testIsFreshWithZeroAge()
     {
         $response = $this->getResponse();
 
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['getLifetime', 'getAge'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['getLifetime', 'getAge'])->getMock();
         $util->expects($this->once())->method('getLifetime')
             ->with($response)->willReturn(0);
 
@@ -573,24 +492,18 @@ class CacheUtilTest extends TestCase
         $this->assertFalse($util->isFresh($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::isFresh
-     */
     public function testIsFreshWithoutLifetime()
     {
         $response = $this->getResponse();
 
         /** @var CacheUtil|MockObject $util */
-        $util = $this->getMockBuilder('Micheh\Cache\CacheUtil')->onlyMethods(['getLifetime'])->getMock();
+        $util = $this->getMockBuilder(\Micheh\Cache\CacheUtil::class)->onlyMethods(['getLifetime'])->getMock();
         $util->expects($this->once())->method('getLifetime')
             ->with($response)->willReturn(null);
 
         $this->assertNull($util->isFresh($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetime()
     {
         $response = $this->getResponseWithHeader('Cache-Control', 'max-age=60, s-maxage=200');
@@ -599,9 +512,6 @@ class CacheUtilTest extends TestCase
         $this->assertSame(200, $this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithZero()
     {
         $response = $this->getResponseWithHeader('Cache-Control', 's-maxage=0');
@@ -610,9 +520,6 @@ class CacheUtilTest extends TestCase
         $this->assertSame(0, $this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithoutSharedAge()
     {
         $response = $this->getResponseWithHeader('Cache-Control', 'max-age=60, public');
@@ -621,9 +528,6 @@ class CacheUtilTest extends TestCase
         $this->assertSame(60, $this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithOtherCacheControlHeader()
     {
         $response = $this->getResponseWithHeaders([['Cache-Control', 'public'], ['Expires', '']]);
@@ -632,45 +536,30 @@ class CacheUtilTest extends TestCase
         $this->assertNull($this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithExpires()
     {
         $response = $this->getResponseWithHeaders([['Expires', date('D, d M Y H:i:s', time() + 20)], ['Date', '']]);
         $this->assertSame(20, $this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithExpiresInPast()
     {
         $response = $this->getResponseWithHeaders([['Expires', date('D, d M Y H:i:s', time() - 20)], ['Date', '']]);
         $this->assertSame(0, $this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getLifetime
-     */
     public function testGetLifetimeWithoutAnything()
     {
         $response = $this->getResponse();
         $this->assertNull($this->cacheUtil->getLifetime($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getAge
-     */
     public function testGetAge()
     {
         $response = $this->getResponseWithHeader('Age', '5');
         $this->assertSame(5, $this->cacheUtil->getAge($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getAge
-     */
     public function testGetAgeWithDate()
     {
         $map = [
@@ -683,9 +572,6 @@ class CacheUtilTest extends TestCase
         $this->assertSame(20, $this->cacheUtil->getAge($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getAge
-     */
     public function testGetAgeWithoutHeaders()
     {
         $response = $this->getResponseWithHeaders([['Age', ''], ['Date', '']]);
@@ -695,12 +581,9 @@ class CacheUtilTest extends TestCase
         $this->assertNull($this->cacheUtil->getAge($response));
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getTimeFromValue
-     */
     public function testGetTimeFromValueInvalidType()
     {
-        $method = new ReflectionMethod('Micheh\Cache\CacheUtil', 'getTimeFromValue');
+        $method = new ReflectionMethod(\Micheh\Cache\CacheUtil::class, 'getTimeFromValue');
         $method->setAccessible(true);
 
         $this->expectExceptionMessage(
@@ -710,13 +593,10 @@ class CacheUtilTest extends TestCase
         $method->invoke($this->cacheUtil, 'foo');
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getTimestampFromValue
-     * @dataProvider timestamps
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('timestamps')]
     public function testGetTimestampFromValue($value)
     {
-        $method = new ReflectionMethod('Micheh\Cache\CacheUtil', 'getTimestampFromValue');
+        $method = new ReflectionMethod(\Micheh\Cache\CacheUtil::class, 'getTimestampFromValue');
         $method->setAccessible(true);
 
         $this->assertSame(
@@ -737,12 +617,9 @@ class CacheUtilTest extends TestCase
         ];
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getTimestampFromValue
-     */
     public function testGetTimestampFromValueInvalidType()
     {
-        $method = new ReflectionMethod('Micheh\Cache\CacheUtil', 'getTimestampFromValue');
+        $method = new ReflectionMethod(\Micheh\Cache\CacheUtil::class, 'getTimestampFromValue');
         $method->setAccessible(true);
 
         $this->expectExceptionMessage(
@@ -752,18 +629,15 @@ class CacheUtilTest extends TestCase
         $method->invoke($this->cacheUtil, []);
     }
 
-    /**
-     * @covers Micheh\Cache\CacheUtil::getCacheControl
-     */
     public function testGetCacheControl()
     {
-        $method = new ReflectionMethod('Micheh\Cache\CacheUtil', 'getCacheControl');
+        $method = new ReflectionMethod(\Micheh\Cache\CacheUtil::class, 'getCacheControl');
         $method->setAccessible(true);
 
         $response = $this->getResponseWithHeader('Cache-Control', 'public');
 
         $cacheControl = $method->invoke($this->cacheUtil, $response);
-        $this->assertInstanceOf('Micheh\Cache\Header\ResponseCacheControl', $cacheControl);
+        $this->assertInstanceOf(\Micheh\Cache\Header\ResponseCacheControl::class, $cacheControl);
     }
 
     /**
@@ -808,6 +682,6 @@ class CacheUtilTest extends TestCase
      */
     private function getResponse()
     {
-        return $this->createMock('Psr\Http\Message\ResponseInterface');
+        return $this->createMock(\Psr\Http\Message\ResponseInterface::class);
     }
 }
