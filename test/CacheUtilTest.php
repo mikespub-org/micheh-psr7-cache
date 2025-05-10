@@ -400,7 +400,7 @@ class CacheUtilTest extends TestCase
     public function testIsNotModifiedWithModifiedUnsafe()
     {
         $request = $this->createMock(\Psr\Http\Message\RequestInterface::class);
-        $request->expects($this->once())->method('getMethod')->will($this->returnValue('POST'));
+        $request->expects($this->once())->method('getMethod')->willReturn('POST');
 
         $response = $this->getResponse();
         $this->assertFalse($this->cacheUtil->isNotModified($request, $response));

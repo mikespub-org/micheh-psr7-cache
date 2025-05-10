@@ -105,6 +105,7 @@ class CacheUtil
      */
     public function withRelativeExpires(ResponseInterface $response, $seconds)
     {
+        /** @phpstan-ignore-next-line */
         if (!is_int($seconds)) {
             throw new InvalidArgumentException(
                 'Expected an integer with the number of seconds, received ' . gettype($seconds) . '.'

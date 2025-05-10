@@ -8,3 +8,5 @@ parameters:
         #- test/
     bootstrapFiles:
         - vendor/autoload.php
+    tips:
+        treatPhpDocTypesAsCertain: false
