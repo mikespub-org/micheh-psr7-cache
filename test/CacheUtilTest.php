@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use ReflectionMethod;
 
+#[\PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations]
 #[\PHPUnit\Framework\Attributes\CoversClass(\Micheh\Cache\CacheUtil::class)]
 class CacheUtilTest extends TestCase
 {
